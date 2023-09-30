@@ -4,7 +4,6 @@ import (
 	"blogspot/entity"
 	"blogspot/repository"
 	"database/sql"
-	"fmt"
 )
 
 type blogFlow struct {
@@ -53,7 +52,6 @@ func (f *blogFlow) GetByUser(blogFilter entity.BlogFilter) (blogs []entity.BlogR
 
 	blogs, err = f.repoBlog.GetByUser(blogFilter)
 	if err != nil {
-		fmt.Println("err 54", err)
 		return
 	}
 
@@ -70,8 +68,6 @@ func (f *blogFlow) GetByUser(blogFilter entity.BlogFilter) (blogs []entity.BlogR
 		if err != nil {
 			return
 		}
-
-		fmt.Println(blog.Tag)
 
 		blog.Category, err = f.repoCategory.GetAll(categoryFilter)
 		if err != nil {
@@ -89,7 +85,7 @@ func (f *blogFlow) GetHidden(blogFilter entity.BlogFilter) (blogs []entity.BlogR
 
 	blogs, err = f.repoBlog.GetHidden(blogFilter)
 	if err != nil {
-		fmt.Println("err 89", err)
+
 		return
 	}
 
@@ -104,13 +100,13 @@ func (f *blogFlow) GetHidden(blogFilter entity.BlogFilter) (blogs []entity.BlogR
 
 		blog.Tag, err = f.repoTag.GetAll(tagFilter)
 		if err != nil {
-			fmt.Println("err 104", err)
+
 			return
 		}
 
 		blog.Category, err = f.repoCategory.GetAll(categoryFilter)
 		if err != nil {
-			fmt.Println("err 110", err)
+
 			return
 		}
 
@@ -161,7 +157,6 @@ func (f *blogFlow) Update(blog entity.Blog) (err error) {
 
 func (f *blogFlow) Hidden(blogFilter entity.BlogFilter) (err error) {
 	err = f.repoBlog.Hidden(blogFilter)
-	fmt.Println(err)
 	return
 }
 
@@ -170,25 +165,25 @@ func (f *blogFlow) Delete(blogID int) (err error) {
 
 	tx, err = f.repoBlog.BlogBeginTransaction()
 	if err != nil {
-		fmt.Println("err 166", err)
+
 		return err
 	}
 
 	err = f.repoBlog.DeleteTagDetail(tx, blogID)
 	if err != nil {
-		fmt.Println("err 172", err)
+
 		return err
 	}
 
 	err = f.repoBlog.DeleteCategoryDetail(tx, blogID)
 	if err != nil {
-		fmt.Println("err 178", err)
+
 		return err
 	}
 
 	err = f.repoBlog.Delete(tx, blogID)
 	if err != nil {
-		fmt.Println("err 184", err)
+
 		return err
 	}
 

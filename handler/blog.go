@@ -4,7 +4,6 @@ import (
 	"blogspot/flow"
 	"blogspot/parser"
 	"blogspot/util"
-	"fmt"
 	"net/http"
 )
 
@@ -41,7 +40,6 @@ func (h *blogHandler) Insert(w http.ResponseWriter, r *http.Request) {
 func (h *blogHandler) Update(w http.ResponseWriter, r *http.Request) {
 	blog, err := h.parser.ParseBlogEntity(r)
 	if err != nil {
-		fmt.Println(err)
 		h.presenter.SendError(w, "Error Parsing")
 		return
 	}
